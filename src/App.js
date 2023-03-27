@@ -52,7 +52,7 @@ function App() {
   function startQuiz() {
     setStartNewQuiz((prev) => prev + 1);
     setState(IN_PROCESS);
-
+    setScore(0);
     setQuiz(fillNewQuiz);
   }
 

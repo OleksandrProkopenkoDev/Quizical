@@ -1,14 +1,25 @@
 import React from "react";
 import Question from "./Question";
+import QUIZ_STATE from "./StateEnum";
 
 function App() {
-  const [started, setStarted] = React.useState(false); //started to answer the quizz or not yet
+  const { WELCOME, IN_PROCESS, CHECK_ANSWERS } = QUIZ_STATE;
+  const [state, setState] = React.useState(WELCOME); //started to answer the quizz or not yet
   const [data, setData] = React.useState([]);
-  const numberOfQuestions = 4;
+  const numberOfQuestions = 5;
   const [startNewQuiz, setStartNewQuiz] = React.useState(0);
   const [quiz, setQuiz] = React.useState([]);
+  const [score, setScore] = React.useState(0);
+
   const questionElements = quiz.map((item) => {
-    return <Question key={item.id} data={{ ...item }} />;
+    return (
+      <Question
+        key={item.id}
+        data={{ ...item }}
+        chooseAnswer={chooseAnswer}
+        state={state}
+      />
+    );
   });
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=" + numberOfQuestions)
@@ -17,7 +28,8 @@ function App() {
   }, [startNewQuiz]);
 
   // console.log("quiz: ");
-  // console.log("quiz: " + quiz);
+  // console.log(quiz);
+  // console.log(state);
   // console.log("data: ");
   // console.log(data);
   // console.log(startNewQuiz);
@@ -39,25 +51,39 @@ function App() {
 
   function startQuiz() {
     setStartNewQuiz((prev) => prev + 1);
-    setStarted((prev) => !prev);
+    setState(IN_PROCESS);
 
     setQuiz(fillNewQuiz);
   }
 
+  function countScore() {
+    quiz.forEach((question) => {
+      if (question.selected === question.correct_answer)
+        setScore((prev) => prev + 1);
+    });
+  }
+
   function checkAnswers() {
-    setStarted((prev) => !prev);
+    const allSelected = quiz.every((question) => question.selected);
+    if (allSelected) {
+      setState(CHECK_ANSWERS);
+      countScore();
+    } else {
+      console.log("answer all questions");
+    }
+  }
+
+  function chooseAnswer(selected, id) {
+    setQuiz((oldQuiz) =>
+      oldQuiz.map((item) =>
+        item.id === id ? { ...item, selected: selected } : item
+      )
+    );
   }
 
   return (
     <div className="main-container">
-      {started ? (
-        <div>
-          {questionElements}
-          <button className="check-button" onClick={checkAnswers}>
-            Check answers
-          </button>
-        </div>
-      ) : (
+      {state === WELCOME && (
         <div className="start-page">
           <h1 className="start-page--title">Quizzical</h1>
           <h3 className="start-page--description">
@@ -66,6 +92,29 @@ function App() {
           <button className="start-page--button" onClick={startQuiz}>
             Start quiz
           </button>
+        </div>
+      )}
+
+      {state === IN_PROCESS && (
+        <div className="question-container">
+          {questionElements}
+          <button className="check-button" onClick={checkAnswers}>
+            Check answers
+          </button>
+        </div>
+      )}
+
+      {state === CHECK_ANSWERS && (
+        <div className="question-container">
+          {questionElements}
+          <div className="score-container">
+            <h2>
+              You scored {score}/{numberOfQuestions} correct answers
+            </h2>
+            <button className="check-button" onClick={startQuiz}>
+              Start new
+            </button>
+          </div>
         </div>
       )}
     </div>

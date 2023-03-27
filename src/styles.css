@@ -50,7 +50,9 @@ body{
     font-size: 16px;
     font-weight: 100;
 }
-
+.question-container{
+    max-width: 800px;
+}
 .question{
     font-family: 'Karla', sans-serif;
     font-size: 22px;
@@ -58,6 +60,8 @@ body{
     color: #293264;
     text-align: left;  
 }
+
+
 .question-variant{
     font-family: 'Inter', sans-serif;
     font-size: 16px;
@@ -66,9 +70,65 @@ body{
     background-color: #F5F7FB;
     border-radius: 10px;
     margin-right: 15px;
+    margin-bottom: 15px;
     border: 2px solid #4D5B9E;
     padding: 3px 20px 3px 20px;
+    cursor: pointer;
 }
+.question-selected{
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
+    color: #293264;
+    background-color: #D6DBF5;
+    border-radius: 10px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    border: none;
+    padding: 3px 20px 3px 20px;
+    cursor: pointer;
+}
+
+.correct_answer{
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
+    color: #293264;
+    background-color: #94D7A2;
+    border-radius: 10px;
+    margin-right: 15px;
+    border: none;
+    margin-bottom: 15px;
+    padding: 3px 20px 3px 20px;
+    pointer-events: none;
+}
+.incorrect_answer{
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
+    color: #4D5B9E;
+    background-color: #F8BCBC;
+    border-radius: 10px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    border: none;
+    padding: 3px 20px 3px 20px;
+    pointer-events: none;
+}
+.other_answer{
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
+    color: #4D5B9E;
+    background-color: #F5F7FB;
+    border-radius: 10px;
+    margin-right: 15px;
+    border: 2px solid #4D5B9E;
+    padding: 3px 20px 3px 20px;
+    pointer-events: none;
+}
+
+
 .check-button{
     margin-top: 30px;
     border: none;
@@ -85,4 +145,19 @@ body{
 }
 .line{
     border: 1px solid #DBDEF0;
+}
+.score-container{
+    display: flex;
+    justify-content: center;
+}
+.score-container >button{
+    margin-left: 50px;
+}
+.score-container > h2{
+    font-family: 'Karla', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #293264;
+    text-align: left; 
+    margin-top: 45px;
 }

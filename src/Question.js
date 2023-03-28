@@ -2,21 +2,20 @@ import React from "react";
 import QUIZ_STATE from "./StateEnum";
 
 export default function Question(props) {
-  const { WELCOME, IN_PROCESS, CHECK_ANSWERS } = QUIZ_STATE;
+  const { IN_PROCESS, CHECK_ANSWERS } = QUIZ_STATE;
   const { id, question, correct_answer, incorrect_answers, selected } =
     props.data;
-
   const [variants, setVariants] = React.useState([]);
+
   React.useEffect(() => {
     setVariants(() => {
       let newVariants = [];
       newVariants = [...incorrect_answers];
       const position = Math.floor(Math.random() * incorrect_answers.length);
-      //   console.log("position for insert: " + position);
       newVariants.splice(position, 0, correct_answer);
       return newVariants;
     });
-  }, []);
+  }, [0]);
 
   function formatQuestion() {
     return question.replace(/&quot;/g, '"').replace(/&#039;/g, "`");

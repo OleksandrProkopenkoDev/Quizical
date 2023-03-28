@@ -49,6 +49,7 @@ body{
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 100;
+    cursor: pointer;
 }
 .question-container{
     max-width: 800px;
@@ -141,7 +142,7 @@ body{
     font-size: 16px;
     font-weight: 100;
     margin-left: 30%;
-    
+    cursor: pointer;
 }
 .line{
     border: 1px solid #DBDEF0;

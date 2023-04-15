@@ -22,9 +22,13 @@ function App() {
     );
   });
   React.useEffect(() => {
-    fetch("https://opentdb.com/api.php?amount=" + numberOfQuestions)
+    fetch(
+      "https://quizzical-rest-api-production.up.railway.app/api/questions?amount=" +
+        numberOfQuestions
+    )
       .then((res) => res.json())
-      .then((loadedData) => setData(loadedData.results));
+      .then((loadedData) => setData(loadedData));
+    // .then((loadedData) => setData(loadedData.results));
   }, [startNewQuiz]);
 
   // console.log("quiz: ");

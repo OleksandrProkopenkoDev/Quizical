@@ -7,6 +7,8 @@ function App() {
   const [state, setState] = React.useState(WELCOME); //started to answer the quizz or not yet
   const [data, setData] = React.useState([]);
   const numberOfQuestions = 5;
+  const dificulty = "easy";
+  const category = "Geography";
   const [startNewQuiz, setStartNewQuiz] = React.useState(0);
   const [quiz, setQuiz] = React.useState([]);
   const [score, setScore] = React.useState(0);
@@ -23,8 +25,9 @@ function App() {
   });
   React.useEffect(() => {
     fetch(
-      "https://quizzical-rest-api-production.up.railway.app/api/questions?amount=" +
-        numberOfQuestions
+      // "https://quizzical-rest-api-production.up.railway.app/api/questions?amount=" +
+      // `https://localhost:8080/api/v1/questions?amount=${numberOfQuestions}&difficulty=${dificulty}&category=${category}`
+      `http://localhost:8080/api/v1/questions?amount=${numberOfQuestions}`
     )
       .then((res) => res.json())
       .then((loadedData) => setData(loadedData));
@@ -34,13 +37,13 @@ function App() {
   // console.log("quiz: ");
   // console.log(quiz);
   // console.log(state);
-  // console.log("data: ");
-  // console.log(data);
+  console.log("data: ");
+  console.log(data);
   // console.log(startNewQuiz);
 
   function fillNewQuiz() {
     const newQuiz = [];
-    for (let i = 0; i < numberOfQuestions; i++) {
+    for (let i = 0; i < data.length; i++) {
       const question = {
         id: i,
         correct_answer: data[i].correct_answer,

@@ -10,18 +10,110 @@ body{
     background-position: 120% -30%, -20% 150%;
     
 }
+
+/* -----------------main page------------------------- */
+
+.login-form {
+    /* position: relative; */
+    width: 400px;
+    height: 250px;
+    /* margin: 0 auto ; */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    padding: 1em;
+    box-sizing: border-box;
+
+  
+    /* we create our grid */
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 4em 1em 1em 1em;
+  }
+
+  .login-form > input{
+    height: 30px;
+    border-radius: 6px;
+    border: 2px solid #4D5B9E;
+  }
+
+  .login-form > button {
+    width: 100%;
+  }
+
+  .login-form > label {
+    font-family: 'Karla', sans-serif;
+    font-size: 16px;
+    font-weight: 100;
+    color: #293264;
+    
+  }
+.greeting-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* columns: 2; */
+}
+
 .main-container{
     display: flex;
     justify-content: center;
     align-items: center;
 }
+.login-root{
+    flex: 50%;
+    height: 600px;
+    
+}
+.login-h1{
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-form > h5{
+    font-family: 'Karla', sans-serif;
+    font-size: 14px;
+    font-weight: 200;
+    color: #293264;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.login-ref{
+    font-weight: 800;
+    color: black;
+    margin-left: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
+.vertical-line{
+    height: 75vh;
+    width:2px;
+    border-width:0;
+    background-color:#4D5B9E;
+  }
+
 .start-page{
-    margin-top: 100px;
-    
-    
+    flex:50%;
+   
+    margin-top: 0px;   
     justify-content: center;
     align-items: center;
-  
+    /* background-color: #94D7A2; */
+}
+
+.start-page > button {
+    margin-left: 270px;
+    /* justify-self: center; */
+    /* align-self: center; */
+    /* align-content: center; */
+    /* align-items: center; */
+    /* position: absolute; */
+    /* margin-right: auto; */
 }
 .start-page--title{
     font-family: 'Karla', sans-serif;
@@ -38,8 +130,14 @@ body{
     color: #293264;
     text-align: center;
 }
+.start-page--link{
+    margin-left: 270px;
+    /* margin-right: auto; */
+}
 .start-page--button{
     margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
     border: none;
     width: 200px;
     height: 60px;
@@ -50,7 +148,71 @@ body{
     font-size: 16px;
     font-weight: 100;
     cursor: pointer;
+
 }
+/*------------- Header ------------------------------ */
+header{
+    display: flex;
+    align-items: center;
+    height: 70px;
+    background-color: #D6DBF5;
+    box-shadow: rgba(8, 4, 52, 0.1) 0px 4px 12px;
+}
+
+header .site-logo{
+    color:  #4D5B9E;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 26px;
+    margin-left: 30px;
+}
+
+header a {
+    text-decoration: none;
+    padding: 5px 20px;
+}
+
+header a:hover{
+    color: #293264;
+    text-decoration: underline;
+}
+
+nav{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 100px;
+    color: #4D5B9E;
+}
+.nav--link{
+    text-decoration: none;
+    padding-right: 50px;
+    color: #4D5B9E;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+nav > h1{
+    font-weight: 800;
+    font-size: 26px;
+    color: #4D5B9E;
+    padding-left: 20px;
+}
+
+.login-icon{
+    margin-left: 6px;
+    margin-top: 15px;
+    width :30px;
+    height: 30px;
+    
+}
+.link-user{
+    margin-left: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+/* ------------------Questions------------------------ */
 .question-container{
     max-width: 800px;
 }

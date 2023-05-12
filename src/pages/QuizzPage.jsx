@@ -1,10 +1,11 @@
 import React from "react";
-import Question from "./components/Question";
-import QUIZ_STATE from "./components/StateEnum";
+import Question from "../components/Question";
+import QUIZ_STATE from "../components/StateEnum";
+import { getQuestions } from "../service/apiService";
 
-function App() {
+export default function QuizzPage() {
   const { WELCOME, IN_PROCESS, CHECK_ANSWERS } = QUIZ_STATE;
-  const [state, setState] = React.useState(WELCOME); //started to answer the quizz or not yet
+  const [state, setState] = React.useState(IN_PROCESS); //started to answer the quizz or not yet
   const [data, setData] = React.useState([]);
   const numberOfQuestions = 5;
   const dificulty = "easy";
@@ -23,22 +24,25 @@ function App() {
       />
     );
   });
+
+  React.useEffect(
+    function fetchData() {
+      getQuestions(numberOfQuestions).then((loadedData) =>
+        setData(loadedData.data)
+      );
+    },
+    [startNewQuiz]
+  );
+
   React.useEffect(() => {
-    fetch(
-      // "https://quizzical-rest-api-production.up.railway.app/api/questions?amount=" +
-      // `https://localhost:8080/api/v1/questions?amount=${numberOfQuestions}&difficulty=${dificulty}&category=${category}`
-      `http://localhost:8080/api/v1/questions?amount=${numberOfQuestions}`
-    )
-      .then((res) => res.json())
-      .then((loadedData) => setData(loadedData));
-    // .then((loadedData) => setData(loadedData.results));
-  }, [startNewQuiz]);
+    setQuiz(fillNewQuiz);
+  }, [data]);
 
   // console.log("quiz: ");
   // console.log(quiz);
   // console.log(state);
-  console.log("data: ");
-  console.log(data);
+  // console.log("data: ");
+  // console.log(data);
   // console.log(startNewQuiz);
 
   function fillNewQuiz() {
@@ -57,7 +61,7 @@ function App() {
   }
 
   function startQuiz() {
-    setStartNewQuiz((prev) => prev + 1);
+    setStartNewQuiz((prev) => prev + 1); //trigers to load new data
     setState(IN_PROCESS);
     setScore(0);
     setQuiz(fillNewQuiz);
@@ -90,18 +94,6 @@ function App() {
 
   return (
     <div className="main-container">
-      {state === WELCOME && (
-        <div className="start-page">
-          <h1 className="start-page--title">Quizzical</h1>
-          <h3 className="start-page--description">
-            Some description if needed
-          </h3>
-          <button className="start-page--button" onClick={startQuiz}>
-            Start quiz
-          </button>
-        </div>
-      )}
-
       {state === IN_PROCESS && (
         <div className="question-container">
           {questionElements}
@@ -127,5 +119,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

@@ -10,3 +10,11 @@ export const getQuestions = async (numberOfQuestions, difficulty, category) => {
     throw e;
   }
 };
+
+export const getRatingData = async () => {
+  try {
+    return await axios.get(`${API_URL}/api/v1/ratingtable`);
+  } catch (e) {
+    throw e;
+  }
+};

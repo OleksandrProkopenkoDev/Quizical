@@ -212,6 +212,27 @@ nav > h1{
     justify-content: center;
 }
 
+/* -------------rating table-------------------------- */
+.table-container{
+    margin-left: 30%;
+    color: #4D5B9E;
+}
+
+.table-container >h1{
+    margin-left: 10%;
+    color: #293264;
+}
+.rating-record{
+    display: grid;
+    grid-template-columns: [first] 50px [line2] 250px [line3] auto [end];
+    grid-template-rows: [row1-start] 0% [row1-end] 0px [third-line] auto [last-line];
+    font-weight: 500;
+    font-size: 26px;
+    
+}
+.rating-number{
+    font-weight: 800;
+}
 /* ------------------Questions------------------------ */
 .question-container{
     max-width: 800px;

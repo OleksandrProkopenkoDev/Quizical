@@ -18,3 +18,11 @@ export const getRatingData = async () => {
     throw e;
   }
 };
+
+export const getUserStatistics = async (userId) => {
+  try {
+    return await axios.get(`${API_URL}/api/v1/results/${userId}`);
+  } catch (e) {
+    throw e;
+  }
+};

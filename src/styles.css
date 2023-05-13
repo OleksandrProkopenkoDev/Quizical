@@ -233,6 +233,38 @@ nav > h1{
 .rating-number{
     font-weight: 800;
 }
+/* -----------------Dashboard------------------------ */
+
+.statistic-main{
+    margin-left: 200px;
+}
+.statistic-main >h1{
+    margin-left: 100px;
+    color: #293264;
+}
+.items-container{
+    display: grid;
+    grid-template-columns: [first] 250px [line2] 250px [line3] auto [end];
+    grid-template-rows: [row1-start] 100% [row1-end] 0px [third-line] auto [last-line];
+ 
+}
+.statistic-item{
+    background-color: #94D7A2;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    margin: 20px;
+    
+}
+.statistic-item--container{
+    padding: 20px;
+    margin-left: 0px;
+    text-align: center;
+    font-family: 'Karla', sans-serif;  
+    color: #293264;
+}
+
+
 /* ------------------Questions------------------------ */
 .question-container{
     max-width: 800px;

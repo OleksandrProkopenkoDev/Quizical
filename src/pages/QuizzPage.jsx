@@ -6,7 +6,6 @@ import { getQuestions } from "../service/apiService";
 export default function QuizzPage() {
   const { WELCOME, IN_PROCESS, CHECK_ANSWERS } = QUIZ_STATE;
   const [state, setState] = React.useState(IN_PROCESS); //started to answer the quizz or not yet
-  const [data, setData] = React.useState([]);
   const numberOfQuestions = 5;
   const dificulty = "easy";
   const category = "Geography";
@@ -28,24 +27,22 @@ export default function QuizzPage() {
   React.useEffect(
     function fetchData() {
       getQuestions(numberOfQuestions).then((loadedData) =>
-        setData(loadedData.data)
+        setQuiz(fillNewQuiz(loadedData.data))
       );
     },
     [startNewQuiz]
   );
 
-  React.useEffect(() => {
-    setQuiz(fillNewQuiz);
-  }, [data]);
+  // React.useEffect(() => {
+  //   setStartNewQuiz((q) => q + 1);
+  // }, []);
 
   // console.log("quiz: ");
   // console.log(quiz);
   // console.log(state);
-  // console.log("data: ");
-  // console.log(data);
   // console.log(startNewQuiz);
 
-  function fillNewQuiz() {
+  function fillNewQuiz(data) {
     const newQuiz = [];
     for (let i = 0; i < data.length; i++) {
       const question = {
@@ -64,7 +61,7 @@ export default function QuizzPage() {
     setStartNewQuiz((prev) => prev + 1); //trigers to load new data
     setState(IN_PROCESS);
     setScore(0);
-    setQuiz(fillNewQuiz);
+    // setQuiz(fillNewQuiz);
   }
 
   function countScore() {

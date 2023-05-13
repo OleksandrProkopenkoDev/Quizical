@@ -15,7 +15,13 @@ export default function Question(props) {
       newVariants.splice(position, 0, correct_answer);
       return newVariants;
     });
-  }, [0]);
+  }, [question]);
+
+  console.log("question:");
+  console.log(question);
+
+  console.log("variants:");
+  console.log(variants);
 
   function formatQuestion() {
     return question.replace(/&quot;/g, '"').replace(/&#039;/g, "`");

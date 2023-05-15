@@ -49,6 +49,14 @@ body{
     color: #293264;
     
   }
+
+.error-message{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    color: red;
+}
+
 .greeting-container {
     display: flex;
     justify-content: center;
@@ -210,6 +218,20 @@ nav > h1{
     margin-left: 100px;
     display: flex;
     justify-content: center;
+}
+.logout-button{
+    margin-top: 00px;
+    border: none;
+    width: 90px;
+    height: 40px;
+    border-radius: 18px;
+    background-color: #4D5B9E;
+    color: #F5F7FB;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 100;
+    
+    cursor: pointer;
 }
 
 /* -------------rating table-------------------------- */

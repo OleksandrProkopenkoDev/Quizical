@@ -1,15 +1,76 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../service/auth";
+import { authenticateUser } from "../service/apiService";
 
 export default function MainPage() {
+  const [errMessage, setErrMessage] = useState("");
+  const [user, setUser] = useState({
+    userId: -1,
+    username: "",
+    nickname: "not loaded",
+    password: "",
+  });
+  const auth = useAuth();
+  const navigate = useNavigate();
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+
+    setUser((prevUser) => {
+      return {
+        ...prevUser,
+        [name]: value,
+      };
+    });
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    auth
+      .login(user)
+      .then((res) => {
+        navigate("/dashboard");
+        // console.log("succesfully loged in");
+      })
+      .catch((e) => {
+        if (!e?.response) {
+          setErrMessage("No server response");
+        } else if (e.response?.status === 400) {
+          setErrMessage("Missing username or password");
+        } else if (e.response?.status === 401) {
+          setErrMessage("Not authorized");
+        } else {
+          setErrMessage("Login failed");
+        }
+      });
+  }
+
   return (
     <div className="greeting-container">
       <div className="login-root">
-        <form className="login-form">
+        <form className="login-form" onSubmit={handleSubmit}>
           <h1 className="login-h1 start-page--title">Please Login</h1>
-          <label>Username</label>
-          <input type="text" name="username"></input>
-          <label>Password</label>
-          <input type="password"></input>
+          {errMessage && <h2 className="error-message">{errMessage}</h2>}
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            placeholder=" John Doe"
+            value={user.username}
+            onChange={handleChange}
+            required
+          ></input>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            placeholder=" 1234"
+            value={user.password}
+            onChange={handleChange}
+            required
+          ></input>
           <h5>
             Haven`t account?{" "}
             <Link className="login-ref" to={"/registration"}>

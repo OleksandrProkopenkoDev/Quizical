@@ -14,6 +14,8 @@ import Registration from "./pages/Registration";
 import RatingTable from "./pages/RatingTable";
 import Dashboard from "./pages/Dashboard";
 import Header from "./pages/Header";
+import { AuthProvider } from "./service/auth";
+import { RequireAuth } from "./components/RequireAuth";
 
 const mainRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -22,14 +24,20 @@ const mainRouter = createBrowserRouter(
       <Route path="registration" element={<Registration />} />
       <Route element={<Header />}>
         <Route path="quizz" element={<QuizzPage />} />
-        <Route path="ratingtable" element={<RatingTable />} />
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route element={<RequireAuth />}>
+          <Route path="ratingtable" element={<RatingTable />} />
+          <Route path="dashboard" element={<Dashboard />} />
+        </Route>
       </Route>
     </React.Fragment>
   )
 );
 
 function AppRouter() {
-  return <RouterProvider router={mainRouter} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={mainRouter} />
+    </AuthProvider>
+  );
 }
 export default AppRouter;

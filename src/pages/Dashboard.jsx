@@ -10,7 +10,7 @@ export default function Dashboard() {
   useEffect(() => {
     getUserStatistics(userId).then((response) => setStatistics(response.data));
   }, []);
-  console.log(statistics);
+  // console.log(statistics);
   //map data to jsx elements
   const statisticItems = statistics.map((item) => {
     return (
@@ -23,7 +23,7 @@ export default function Dashboard() {
     );
   });
   //render jsx elements
-  console.log(statistics);
+  // console.log(statistics);
   return (
     <div className="statistic-main">
       <h1>Your total statistics</h1>

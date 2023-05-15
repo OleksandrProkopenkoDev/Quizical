@@ -1,12 +1,21 @@
-import { Outlet, Link, NavLink } from "react-router-dom";
+import { Outlet, Link, NavLink, useNavigate } from "react-router-dom";
 
 import userIcon from "../images/user.png";
+import { useAuth } from "../service/auth";
 
 export default function Header() {
+  const auth = useAuth();
+  const navigate = useNavigate();
+
   const activeLinkStyle = {
     fontWeight: "bold",
     textDecoration: "underline",
     color: "#293264",
+  };
+
+  const handleLogout = () => {
+    auth.logout();
+    navigate("/");
   };
 
   return (
@@ -23,6 +32,7 @@ export default function Header() {
           >
             New Quizz
           </NavLink>
+
           <NavLink
             to="/ratingtable"
             className="nav--link"
@@ -31,9 +41,14 @@ export default function Header() {
             Rating Table
           </NavLink>
           <NavLink to={"/dashboard"} className={"link-user"}>
-            <h3>Username</h3>
+            {auth.user && <h3>{auth.user.nickname}</h3>}
             <img src={userIcon} className="login-icon" />
           </NavLink>
+          {auth.user && (
+            <button onClick={handleLogout} className="logout-button">
+              Logout
+            </button>
+          )}
         </nav>
       </header>
 

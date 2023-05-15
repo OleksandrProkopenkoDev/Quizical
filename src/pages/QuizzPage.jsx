@@ -1,7 +1,7 @@
 import React from "react";
 import Question from "../components/Question";
 import QUIZ_STATE from "../components/StateEnum";
-import { getQuestions } from "../service/apiService";
+import { getQuestions, saveQuizzResult } from "../service/apiService";
 
 export default function QuizzPage() {
   const { WELCOME, IN_PROCESS, CHECK_ANSWERS } = QUIZ_STATE;
@@ -9,6 +9,7 @@ export default function QuizzPage() {
   const numberOfQuestions = 5;
   const dificulty = "easy";
   const category = "Geography";
+  const userId = 1;
   const [startNewQuiz, setStartNewQuiz] = React.useState(0);
   const [quiz, setQuiz] = React.useState([]);
   const [score, setScore] = React.useState(0);
@@ -76,6 +77,18 @@ export default function QuizzPage() {
     if (allSelected) {
       setState(CHECK_ANSWERS);
       countScore();
+      // save result toDB (send http request to api)
+      const result = {
+        numberOfQuestions: numberOfQuestions,
+        numberOfCorrectAnswers: score, // this is 0
+        elapsedTimeSeconds: 123,
+        difficulty: "difficulty",
+        category: "category",
+        userId: userId,
+      };
+
+      const response = saveQuizzResult(result);
+      // console.log(response);
     } else {
       console.log("answer all questions");
     }

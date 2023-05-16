@@ -10,16 +10,18 @@ export const AuthProvider = ({ children }) => {
     return new Promise((resolve, reject) => {
       authenticateUser(user)
         .then((res) => {
-          setUser((prev) => {
-            return {
-              ...prev,
-              userId: res.data.userId,
-              nickname: res.data.nickname,
-            };
+          setUser({
+            username: user.username,
+            password: user.password,
+            userId: res.data.userId,
+            nickname: res.data.nickname,
           });
+
           resolve(res);
         })
-        .catch((err) => reject(err));
+        .catch((err) => {
+          reject(err);
+        });
     });
   };
 
@@ -28,7 +30,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

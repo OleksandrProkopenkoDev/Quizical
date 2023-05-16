@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { getUserStatistics } from "../service/apiService";
+import { useAuth } from "../service/auth";
 
 export default function Dashboard() {
   //save data in local state variable
   const [statistics, setStatistics] = useState([]);
-  const userId = 1;
+  const auth = useAuth();
+  const user = auth.user;
 
   //get statistic data
   useEffect(() => {
-    getUserStatistics(userId).then((response) => setStatistics(response.data));
+    getUserStatistics(user).then((response) => setStatistics(response.data));
   }, []);
-  // console.log(statistics);
+
   //map data to jsx elements
   const statisticItems = statistics.map((item) => {
     return (

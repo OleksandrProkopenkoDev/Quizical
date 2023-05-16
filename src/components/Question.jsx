@@ -24,7 +24,10 @@ export default function Question(props) {
   // console.log(variants);
 
   function formatQuestion() {
-    return question.replace(/&quot;/g, '"').replace(/&#039;/g, "`");
+    return question
+      .replace(/&quot;/g, '"')
+      .replace(/&#039;/g, "`")
+      .replace(/&oacute;/g, "ó");
   }
   function switchAnswerStyle(btnId) {
     //btnId is a number of button 0,1,2 or 3

@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Question from "../components/Question";
 import QUIZ_STATE from "../components/StateEnum";
 import { getQuestions, saveQuizzResult } from "../service/apiService";
+import { useAuth } from "../service/auth";
 
 export default function QuizzPage() {
   const { WELCOME, IN_PROCESS, CHECK_ANSWERS } = QUIZ_STATE;
   const [state, setState] = React.useState(IN_PROCESS); //started to answer the quizz or not yet
+  const [startTime, setStartTime] = useState(null);
   const numberOfQuestions = 5;
   const dificulty = "easy";
   const category = "Geography";
-  const userId = 1;
+  const auth = useAuth();
+  const user = auth.user;
   const [startNewQuiz, setStartNewQuiz] = React.useState(0);
   const [quiz, setQuiz] = React.useState([]);
   const [score, setScore] = React.useState(0);
-
+  // console.log(userId);
   const questionElements = quiz.map((item) => {
     return (
       <Question
@@ -33,10 +36,6 @@ export default function QuizzPage() {
     },
     [startNewQuiz]
   );
-
-  // React.useEffect(() => {
-  //   setStartNewQuiz((q) => q + 1);
-  // }, []);
 
   // console.log("quiz: ");
   // console.log(quiz);
@@ -62,33 +61,46 @@ export default function QuizzPage() {
     setStartNewQuiz((prev) => prev + 1); //trigers to load new data
     setState(IN_PROCESS);
     setScore(0);
+    //check start time
+    setStartTime(Date.now());
+    // const time = Date.now;
+    // console.log(time);
     // setQuiz(fillNewQuiz);
   }
 
   function countScore() {
+    let i = 0;
     quiz.forEach((question) => {
       if (question.selected === question.correct_answer)
-        setScore((prev) => prev + 1);
+        // setScore((prev) => prev + 1);
+        i++;
     });
+    setScore(i);
+    return i;
   }
 
   function checkAnswers() {
     const allSelected = quiz.every((question) => question.selected);
     if (allSelected) {
       setState(CHECK_ANSWERS);
-      countScore();
-      // save result toDB (send http request to api)
-      const result = {
-        numberOfQuestions: numberOfQuestions,
-        numberOfCorrectAnswers: score, // this is 0
-        elapsedTimeSeconds: 123,
-        difficulty: "difficulty",
-        category: "category",
-        userId: userId,
-      };
+      const correctAnswers = countScore();
+      const currentTime = Date.now();
+      //calculate elapsed time
 
-      const response = saveQuizzResult(result);
-      // console.log(response);
+      // if user is logged in -> save result
+      if (user) {
+        const result = {
+          numberOfQuestions: numberOfQuestions,
+          numberOfCorrectAnswers: correctAnswers,
+          elapsedTimeSeconds: new Date(currentTime - startTime).getSeconds(),
+          difficulty: "any",
+          category: "any",
+          userId: user.userId,
+        };
+        // save result toDB (send http request to api)
+        const response = saveQuizzResult(result, user);
+        // console.log(response);
+      }
     } else {
       console.log("answer all questions");
     }

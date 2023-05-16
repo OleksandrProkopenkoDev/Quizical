@@ -1,6 +1,18 @@
 import axios from "axios";
 import { API_URL } from "../config/config";
-import { useState } from "react";
+import { Buffer } from "buffer";
+
+const getAuthConfig = (user) => ({
+  headers: {
+    Authorization: `Basic ${encodeToBase64(user)}`,
+  },
+});
+
+const encodeToBase64 = (user) => {
+  const str = user.username + ":" + user.password;
+
+  return Buffer.from(str).toString("base64");
+};
 
 export const getQuestions = async (numberOfQuestions, difficulty, category) => {
   try {
@@ -12,17 +24,23 @@ export const getQuestions = async (numberOfQuestions, difficulty, category) => {
   }
 };
 
-export const getRatingData = async () => {
+export const getRatingData = async (user) => {
   try {
-    return await axios.get(`${API_URL}/api/v1/ratingtable`);
+    return await axios.get(
+      `${API_URL}/api/v1/ratingtable`,
+      getAuthConfig(user)
+    );
   } catch (e) {
     throw e;
   }
 };
 
-export const getUserStatistics = async (userId) => {
+export const getUserStatistics = async (user) => {
   try {
-    return await axios.get(`${API_URL}/api/v1/results/${userId}`);
+    return await axios.get(
+      `${API_URL}/api/v1/results/${user.userId}`,
+      getAuthConfig(user)
+    );
   } catch (e) {
     throw e;
   }
@@ -32,13 +50,18 @@ export const registerNewUser = async (user) => {
   try {
     return await axios.post(`${API_URL}/api/v1/registration`, user);
   } catch (e) {
+    console.log("error during registration");
     throw e;
   }
 };
 
-export const saveQuizzResult = async (result) => {
+export const saveQuizzResult = async (result, user) => {
   try {
-    return await axios.post(`${API_URL}/api/v1/results`, result);
+    return await axios.post(
+      `${API_URL}/api/v1/results`,
+      result,
+      getAuthConfig(user)
+    );
   } catch (e) {
     throw e;
   }
@@ -48,7 +71,6 @@ export const authenticateUser = async (user) => {
   try {
     return await axios.post(`${API_URL}/api/v1/auth`, user);
   } catch (e) {
-    // console.log("error");
     throw e;
   }
 };

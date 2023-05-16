@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { registerNewUser } from "../service/apiService";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../service/auth";
 
 export default function Registration() {
+  const [errMessage, setErrMessage] = useState("");
+  const auth = useAuth();
   const navigate = useNavigate();
   // collect form data and control inputs
   const [formData, setFormData] = useState({
@@ -21,11 +24,37 @@ export default function Registration() {
     });
   }
 
-  function handleSubmit(event) {
+  async function sleep(millis) {
+    return new Promise((resolve) => setTimeout(resolve, millis));
+  }
+
+  async function handleSubmit(event) {
     event.preventDefault();
-    const response = registerNewUser(formData);
-    // console.log(response);
-    navigate("/dashboard");
+    registerNewUser(formData); // this saves new user to DB
+
+    await sleep(200); //without pause login failed
+
+    auth
+      .login({
+        //this logs in new user
+        username: formData.username,
+        password: formData.password,
+      })
+      .then((res) => {
+        navigate("/dashboard");
+      })
+      .catch((e) => {
+        if (!e?.response) {
+          setErrMessage("No server response");
+        } else if (e.response?.status === 400) {
+          setErrMessage("Missing username or password");
+        } else if (e.response?.status === 401) {
+          setErrMessage("Not authorized");
+          console.log(auth.user);
+        } else {
+          setErrMessage("Login failed");
+        }
+      });
   }
   //have onSubmit function
   // on submit send a request to api
@@ -35,6 +64,7 @@ export default function Registration() {
       <div className="registration-root">
         <form className="login-form" onSubmit={handleSubmit}>
           <h1 className="login-h1 start-page--title">Create new user</h1>
+          {errMessage && <h2 className="error-message">{errMessage}</h2>}
           <label>Username</label>
           <input
             type="text"

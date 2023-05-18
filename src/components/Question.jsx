@@ -10,6 +10,7 @@ export default function Question(props) {
   React.useEffect(() => {
     setVariants(() => {
       let newVariants = [];
+
       newVariants = [...incorrect_answers];
       const position = Math.floor(Math.random() * incorrect_answers.length);
       newVariants.splice(position, 0, correct_answer);
@@ -23,12 +24,6 @@ export default function Question(props) {
   // console.log("variants:");
   // console.log(variants);
 
-  function formatQuestion() {
-    return question
-      .replace(/&quot;/g, '"')
-      .replace(/&#039;/g, "`")
-      .replace(/&oacute;/g, "ó");
-  }
   function switchAnswerStyle(btnId) {
     //btnId is a number of button 0,1,2 or 3
     let style = "";
@@ -54,7 +49,7 @@ export default function Question(props) {
 
   return (
     <div className={props.state === CHECK_ANSWERS ? "chek" : ""}>
-      <h2 className="question">{formatQuestion()}</h2>
+      <h2 className="question">{question}</h2>
       <div className="question--buttons">
         <button
           onClick={() => props.chooseAnswer(variants[0], id)}

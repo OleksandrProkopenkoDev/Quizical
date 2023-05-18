@@ -42,14 +42,27 @@ export default function QuizzPage() {
   // console.log(state);
   // console.log(startNewQuiz);
 
+  function format(string) {
+    return string
+      .replace(/&quot;/g, '"')
+      .replace(/&#039;/g, "`")
+      .replace(/&oacute;/g, "ó");
+  }
+
   function fillNewQuiz(data) {
     const newQuiz = [];
     for (let i = 0; i < data.length; i++) {
+      const incorrectAnswers = data[i].incorrect_answers.map((answer) =>
+        format(answer)
+      );
+
       const question = {
         id: i,
-        correct_answer: data[i].correct_answer,
-        incorrect_answers: data[i].incorrect_answers,
-        question: data[i].question,
+        correct_answer: format(data[i].correct_answer),
+        incorrect_answers: data[i].incorrect_answers.map((answer) =>
+          format(answer)
+        ),
+        question: format(data[i].question),
         selected: "",
       };
       newQuiz.push(question);

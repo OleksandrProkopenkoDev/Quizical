@@ -247,7 +247,7 @@ nav > h1{
 .rating-record{
     display: grid;
     grid-template-columns: [first] 50px [line2] 250px [line3] auto [end];
-    grid-template-rows: [row1-start] 0% [row1-end] 0px [third-line] auto [last-line];
+    grid-template-rows: [row1-start] 50px [row1-end] 0px [third-line] auto [last-line];
     font-weight: 500;
     font-size: 26px;
     

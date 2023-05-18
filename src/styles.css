@@ -106,16 +106,20 @@ body{
   }
 
 .start-page{
+    /* display: table-column; */
     flex:50%;
-   
+   /* display: flex; */
     margin-top: 0px;   
     justify-content: center;
     align-items: center;
     /* background-color: #94D7A2; */
 }
 
-.start-page > button {
-    margin-left: 270px;
+.button-div {
+    display: flex;
+    justify-content: center;
+    
+    /* margin-left: 270px; */
     /* justify-self: center; */
     /* align-self: center; */
     /* align-content: center; */
@@ -139,13 +143,14 @@ body{
     text-align: center;
 }
 .start-page--link{
-    margin-left: 270px;
+    /* margin-left: 270px; */
     /* margin-right: auto; */
+
 }
 .start-page--button{
     margin-top: 30px;
-    margin-left: auto;
-    margin-right: auto;
+    /* margin-left: auto;
+    margin-right: auto; */
     border: none;
     width: 200px;
     height: 60px;
@@ -234,9 +239,13 @@ nav > h1{
     cursor: pointer;
 }
 
+/* ---------------Outlet-------------- */
+.div-for-outlet{
+    display: flex;
+    justify-content: center;
+}
 /* -------------rating table-------------------------- */
 .table-container{
-    margin-left: 30%;
     color: #4D5B9E;
 }
 
@@ -258,17 +267,23 @@ nav > h1{
 /* -----------------Dashboard------------------------ */
 
 .statistic-main{
-    margin-left: 200px;
+    width: 1200px;
+    height: 600px;
+    /* margin-left: 200px; */
+    /* background-color: #ddc420; */
+    text-align: center;
 }
 .statistic-main >h1{
-    margin-left: 100px;
+    /* margin-left: 100px; */
     color: #293264;
 }
 .items-container{
-    display: grid;
+    display:inline-flex;
+
+    /* display: grid;
     grid-template-columns: [first] 250px [line2] 250px [line3] auto [end];
     grid-template-rows: [row1-start] 100% [row1-end] 0px [third-line] auto [last-line];
- 
+  */
 }
 .statistic-item{
     background-color: #94D7A2;

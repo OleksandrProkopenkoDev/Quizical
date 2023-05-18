@@ -30,9 +30,10 @@ export default function QuizzPage() {
 
   React.useEffect(
     function fetchData() {
-      getQuestions(numberOfQuestions).then((loadedData) =>
-        setQuiz(fillNewQuiz(loadedData.data))
-      );
+      getQuestions(numberOfQuestions).then((loadedData) => {
+        setStartTime(Date.now());
+        setQuiz(fillNewQuiz(loadedData.data));
+      });
     },
     [startNewQuiz]
   );
@@ -52,10 +53,6 @@ export default function QuizzPage() {
   function fillNewQuiz(data) {
     const newQuiz = [];
     for (let i = 0; i < data.length; i++) {
-      const incorrectAnswers = data[i].incorrect_answers.map((answer) =>
-        format(answer)
-      );
-
       const question = {
         id: i,
         correct_answer: format(data[i].correct_answer),
@@ -76,17 +73,14 @@ export default function QuizzPage() {
     setScore(0);
     //check start time
     setStartTime(Date.now());
-    // const time = Date.now;
-    // console.log(time);
     // setQuiz(fillNewQuiz);
+    // console.log("start new quizz");
   }
 
   function countScore() {
     let i = 0;
     quiz.forEach((question) => {
-      if (question.selected === question.correct_answer)
-        // setScore((prev) => prev + 1);
-        i++;
+      if (question.selected === question.correct_answer) i++;
     });
     setScore(i);
     return i;
@@ -98,8 +92,6 @@ export default function QuizzPage() {
       setState(CHECK_ANSWERS);
       const correctAnswers = countScore();
       const currentTime = Date.now();
-      //calculate elapsed time
-
       // if user is logged in -> save result
       if (user) {
         const result = {

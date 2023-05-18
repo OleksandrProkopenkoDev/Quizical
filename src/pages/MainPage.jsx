@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../service/auth";
-import { authenticateUser } from "../service/apiService";
 
 export default function MainPage() {
   const [errMessage, setErrMessage] = useState("");
@@ -89,9 +88,11 @@ export default function MainPage() {
           You can start quizz now. Or login and access to your statistic data
           and players rating table!
         </h3>
-        <Link className="start-page--link" to={"/quizz"}>
-          <button className="start-page--button">Start quiz</button>
-        </Link>
+        <div className="button-div">
+          <Link className="start-page--link" to={"/quizz"}>
+            <button className="start-page--button">Start quiz</button>
+          </Link>
+        </div>
       </div>
     </div>
   );

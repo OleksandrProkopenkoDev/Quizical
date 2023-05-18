@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import QUIZ_STATE from "./StateEnum";
 
 export default function Question(props) {
@@ -6,16 +6,31 @@ export default function Question(props) {
   const { id, question, correct_answer, incorrect_answers, selected } =
     props.data;
   const [variants, setVariants] = React.useState([]);
+  let position;
+
+  const randomPosition = () => {
+    return Math.floor(Math.random() * incorrect_answers.length);
+  };
 
   React.useEffect(() => {
-    setVariants(() => {
-      let newVariants = [];
-
-      newVariants = [...incorrect_answers];
-      const position = Math.floor(Math.random() * incorrect_answers.length);
-      newVariants.splice(position, 0, correct_answer);
-      return newVariants;
-    });
+    if (props.state === IN_PROCESS) {
+      setVariants(() => {
+        let newVariants = [];
+        newVariants = [...incorrect_answers];
+        position = randomPosition();
+        newVariants.splice(position, 0, correct_answer);
+        localStorage.setItem("variant " + id, position);
+        return newVariants;
+      });
+    } else if (props.state === CHECK_ANSWERS) {
+      setVariants(() => {
+        let newVariants = [];
+        position = localStorage.getItem("variant " + id);
+        newVariants = [...incorrect_answers];
+        newVariants.splice(position, 0, correct_answer);
+        return newVariants;
+      });
+    }
   }, [question]);
 
   // console.log("question:");
@@ -31,12 +46,7 @@ export default function Question(props) {
       style =
         variants[btnId] === selected ? "question-selected" : "question-variant";
     if (props.state === CHECK_ANSWERS) {
-      //   console.log("selected: " + selected);
-      //   console.log("correct_answer: " + correct_answer);
-      //   console.log("incorrect_answers: ");
-      //   console.log(incorrect_answers);
       style = "other_answer";
-
       let incorrect = false;
       incorrect_answers.forEach((answer) => {
         if (variants[btnId] === selected) incorrect = true;

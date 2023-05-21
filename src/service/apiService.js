@@ -2,17 +2,23 @@ import axios from "axios";
 import { API_URL } from "../config/config";
 import { Buffer } from "buffer";
 
-const getAuthConfig = (user) => ({
+const getAuthConfig = () => ({
   headers: {
-    Authorization: `Basic ${encodeToBase64(user)}`,
+    Authorization: `Bearer ${localStorage.getItem("access_token")}`,
   },
 });
 
-const encodeToBase64 = (user) => {
-  const str = user.username + ":" + user.password;
+// const getAuthConfig = (user) => ({
+//   headers: {
+//     Authorization: `Basic ${encodeToBase64(user)}`,
+//   },
+// });
 
-  return Buffer.from(str).toString("base64");
-};
+// const encodeToBase64 = (user) => {
+//   const str = user.username + ":" + user.password;
+
+//   return Buffer.from(str).toString("base64");
+// };
 
 export const getQuestions = async (numberOfQuestions, difficulty, category) => {
   try {
@@ -69,7 +75,8 @@ export const saveQuizzResult = async (result, user) => {
 
 export const authenticateUser = async (user) => {
   try {
-    return await axios.post(`${API_URL}/api/v1/auth`, user);
+    // return await axios.post(`${API_URL}/api/v1/auth`, user);
+    return await axios.post(`${API_URL}/login`, user);
   } catch (e) {
     throw e;
   }

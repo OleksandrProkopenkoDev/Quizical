@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { authenticateUser } from "./apiService";
+import jwtDecode from "jwt-decode";
 
 const AuthContext = createContext(null);
 
@@ -10,11 +11,19 @@ export const AuthProvider = ({ children }) => {
     return new Promise((resolve, reject) => {
       authenticateUser(user)
         .then((res) => {
+          //get token from response header 'Authorization'
+          const jwtToken = res.headers["authorization"];
+
+          //save token to local storage
+          localStorage.setItem("access_token", jwtToken);
+          //it seems token is encoded. and we want to get payload
+          const decodedToken = jwtDecode(jwtToken);
+
           setUser({
             username: user.username,
             password: user.password,
-            userId: res.data.userId,
-            nickname: res.data.nickname,
+            userId: decodedToken.userId,
+            nickname: decodedToken.nickname,
           });
 
           resolve(res);
@@ -26,6 +35,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    localStorage.removeItem("access_token");
     setUser(null);
   };
 

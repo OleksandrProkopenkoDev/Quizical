@@ -29,7 +29,10 @@ export default function MainPage() {
     event.preventDefault();
 
     auth
-      .login(user)
+      .login({
+        username: user.username,
+        password: user.password,
+      })
       .then((res) => {
         navigate("/dashboard");
       })
